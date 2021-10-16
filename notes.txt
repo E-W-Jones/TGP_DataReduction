@@ -1,0 +1,33 @@
+If there is already a good master bias and master flats, and you're only interested in V band observations, then running:
+
+    ./reduce.sh YYYY-MM-DD
+
+Will create (or re-make) a folder under .../tgp/Cepheids1/ReducedData full of the reduced frames, normalised to an exposure time of 1s.
+
+If not:
+
+Create a master bias for a date by using the bash script bash_from_date.sh as follows `./bash_from_date.sh DATE`
+
+Create a master flat by copying all valid flats to Flats by using ./copy_valid_flats.sh, then calling master_flats.py on this.
+
+Then call reduce.py on a file of raw images, with the correct bias and flat field. This will generate all the reduced images.
+We will still need to go through by hand and delete any with blurring, but luckily this shouldn't take too long using something like ds9/gaia,
+as the files are sorted by time so if the most recent images are okay, we can delete all the rest without needing to check.
+
+In future observations we shouldnt have many repeats and I'm aiming to take better notes.
+
+There are a few bash scripts and python files knocking about, I know it's not the neatest but it's flexible.
+
+You can look in MasterTests and run biases_similar.py to see that over time, the biases are all the same within noise, so pick any date.
+
+The Flats are valid for 20 Days, we're making observations from the 27th of September to the 21st of October
+
+dates 27 28 29 30  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21
+ttus*  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+ttus*                 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+
+*ttus = Time 'Til UnStable, how long a flat field is good for.
+
+As long as we take flats from the second of october to the 16th of october,
+there shouldnt be any change so we can stack them from different nights to get a better master.
+
